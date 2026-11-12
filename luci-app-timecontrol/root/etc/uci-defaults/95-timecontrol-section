@@ -1,0 +1,9 @@
+#!/bin/sh
+# 上游全局节是匿名的；后端读 @timecontrol[0]，前端读写 timecontrol.timecontrol。
+# 已存在匿名节时改名为命名节，两边才指向同一节。
+if uci -q get timecontrol.@timecontrol[0] >/dev/null 2>&1 && \
+   ! uci -q get timecontrol.timecontrol >/dev/null 2>&1; then
+	uci rename timecontrol.@timecontrol[0]=timecontrol
+	uci commit timecontrol
+fi
+exit 0
